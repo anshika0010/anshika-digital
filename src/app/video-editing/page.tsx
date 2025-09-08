@@ -48,7 +48,7 @@ function page() {
           <Link href="/enroll-form">
             <motion.button
               whileHover={{ scale: 1.05 }}
-              className="mt-6 inline-flex items-center px-6 py-3 bg-blue-600 text-white  rounded-full transition"
+              className="mt-6 inline-flex items-center px-6 py-5 bg-gradient-to-r from-[#280cc5] via-[#652f8e] to-[#1b24cc] text-white  rounded-full transition"
             >
               Get Free Career Counselling{" "}
               <ArrowRight className="ml-2 w-4 h-4" />
