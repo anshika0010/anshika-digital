@@ -1,81 +1,61 @@
-import React from "react";
+"use client";
 
-const testimonials = [
-  {
-    name: "Aadesh Nishad",
-    image: "https://via.placeholder.com/80", // replace with actual image
-    text: "Great institute for digital marketing and graphic design. Practical training and solid knowledge!",
-  },
-  {
-    name: "Kundan Kumar",
-    image: "https://via.placeholder.com/80",
-    text: "Very good teaching and hands-on training. Highly recommend this institute!",
-  },
-  {
-    name: "Ramesh Sahu",
-    image: "https://via.placeholder.com/80",
-    text: "Completed digital marketing course here. Learned SEO, social media, email marketing. Trainer support was excellent!",
-  },
-  {
-    name: "Anshika Digital Marketing Institute",
-    image: "https://via.placeholder.com/80",
-    text: "Top-notch institute with practical training and personal growth. Great for career building!",
-  },
+import { useEffect, useRef } from "react";
+import Image from "next/image";
+
+const reviews = [
+  { id: 1, image: "/B.webp", alt: "Google Review 1" },
+  { id: 2, image: "/C.webp", alt: "Google Review 2" },
+  { id: 3, image: "/E.webp", alt: "Google Review 3" },
+  { id: 4, image: "/F.webp", alt: "Google Review 4" },
+  { id: 1, image: "/K.webp", alt: "Google Review 5" },
+  { id: 2, image: "/J.webp", alt: "Google Review 6" },
+  { id: 3, image: "/H.webp", alt: "Google Review 7" },
+  { id: 4, image: "/G.webp", alt: "Google Review 8" },
 ];
 
-const Testimonials: React.FC = () => {
-  return (
-    <div className="py-12 px-6 md:px-16 bg-black">
-      {/* Heading */}
-      <h2 className="text-2xl md:text-3xl font-semibold text-center mb-10">
-        What Our <span className="text-blue-600 font-bold">Students Say</span>
-      </h2>
+export default function Testimonials() {
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-      {/* Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-        {testimonials.map((item, index) => (
-          <div
-            key={index}
-            className="bg-gray-200 shadow-md rounded-lg p-6 text-center hover:shadow-lg transition"
-          >
-            {/* Profile Image */}
-            <div className="w-20 h-20 mx-auto rounded-full border-4 border-blue-200 overflow-hidden mb-4">
-              <img
-                src={item.image}
-                alt={item.name}
+  const scrollNext = () => {
+    if (scrollRef.current) {
+      const scrollAmount = scrollRef.current.offsetWidth / 1.5; // responsive scroll
+      scrollRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    }
+  };
+
+  useEffect(() => {
+    const interval = setInterval(scrollNext, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <section className="bg-black py-10 px-4">
+      <div className="max-w-7xl mx-auto">
+        <h2 className="text-3xl sm:text-4xl py-5 font-bold text-center text-gray-200 mb-4">
+          What Our Students Say
+        </h2>
+
+        <div
+          ref={scrollRef}
+          className="flex gap-4 overflow-x-auto scroll-smooth no-scrollbar snap-x snap-mandatory px-4 py-2"
+        >
+          {reviews.map((review, index) => (
+            <div
+              key={`${review.id}-${index}`} // ensures uniqueness even if IDs repeat
+              className="snap-start flex-shrink-0 w-[80%] sm:w-[300px] rounded-2xl bg-white shadow-md border border-gray-200 overflow-hidden hover:scale-[1.03] transition"
+            >
+              <Image
+                src={review.image}
+                alt={review.alt}
+                width={400}
+                height={300}
                 className="w-full h-full object-cover"
               />
             </div>
-
-            {/* Name */}
-            <h3 className="text-blue-600 font-semibold text-lg mb-1">
-              {item.name}
-            </h3>
-
-            {/* Stars */}
-            <div className="flex justify-center mb-2 text-yellow-400">
-              {Array(5)
-                .fill(0)
-                .map((_, i) => (
-                  <svg
-                    key={i}
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                    className="w-5 h-5"
-                  >
-                    <path d="M12 .587l3.668 7.431L24 9.748l-6 5.847L19.335 24 12 20.02 4.665 24 6 15.595 0 9.748l8.332-1.73z" />
-                  </svg>
-                ))}
-            </div>
-
-            {/* Text */}
-            <p className="text-gray-600 text-sm">{item.text}</p>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
-};
-
-export default Testimonials;
+}

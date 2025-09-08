@@ -68,7 +68,7 @@ export default function Header() {
                   Graphic Designing
                 </Link>
                 <Link
-                  href="#video-editing"
+                  href="/video-editing"
                   className="block px-4 py-2 hover:bg-purple-100"
                 >
                   Video Editing
@@ -82,7 +82,7 @@ export default function Header() {
               </div>
             )}
           </div>
-          <Link href="#contact" className="text-white hover:text-gray-50">
+          <Link href="/contact" className="text-white hover:text-gray-50">
             Contact
           </Link>
 

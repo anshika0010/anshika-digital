@@ -11,10 +11,11 @@ import UpcomingBatches from "@/components/video-editing/UpcomingBatches";
 import Testimonials from "@/components/video-editing/Testimonials";
 import PlacementSection from "@/components/video-editing/PlacementSection";
 import Video from "@/components/video-editing/Video";
+import NewsletterCTA from "@/components/CallNow";
 
 function page() {
   return (
-    <div>
+    <div className="bg-black">
       <Header />
       <section className="relative bg-black py-14 px-4 mt-16 overflow-hidden">
         <motion.div
@@ -138,6 +139,7 @@ function page() {
       <CreativitySection />
       <WhyChooseSection />
       <CallNow /> */}
+      <NewsletterCTA />
       <Footer />
     </div>
   );
