@@ -103,8 +103,8 @@ export default function Footer() {
 
       {/* Bottom Footer */}
       <div className="text-center text-sm text-gray-500">
-        &copy; {new Date().getFullYear()} Designifiy Digital Media Pvt. Ltd. All
-        rights reserved.
+        &copy; {new Date().getFullYear()} Bigdesigned software tecnologies All
+        rights reserved
       </div>
     </footer>
   );
