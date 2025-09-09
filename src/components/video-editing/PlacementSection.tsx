@@ -1,43 +1,45 @@
 import React, { useState } from "react";
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
+
 import logo1 from "../../Image/Edu.webp";
 import logo2 from "../../Image/N.webp";
 import logo3 from "../../Image/Taca.webp";
 import logo4 from "../../Image/brand.webp";
 import logo5 from "../../Image/scorp.webp";
 import logo6 from "../../Image/top.webp";
-import Image from "next/image";
 
 const companies = [
   { name: "AANS Infosys", logo: logo1 },
   { name: "TechAlpha", logo: logo2 },
   { name: "Scorp", logo: logo3 },
-  {
-    name: "International Education Overseas",
-    logo: logo4,
-  },
-  {
-    name: "Branding Pioneers",
-    logo: logo5,
-  },
+  { name: "International Education Overseas", logo: logo4 },
+  { name: "Branding Pioneers", logo: logo5 },
   { name: "Another Company", logo: logo6 },
 ];
 
 const ITEMS_PER_ROW = 2;
 const ROWS_VISIBLE = 2;
-const ITEMS_PER_PAGE = ITEMS_PER_ROW * ROWS_VISIBLE; // 4 per view
+const VISIBLE_ITEMS = ITEMS_PER_ROW * ROWS_VISIBLE; // 4
+const STEP = ITEMS_PER_ROW; // Slide by 2 each time
 
 const PlacementSection: React.FC = () => {
-  const [pageIndex, setPageIndex] = useState(0);
-
-  const totalPages = Math.ceil(companies.length / ITEMS_PER_PAGE);
+  const [startIndex, setStartIndex] = useState(0);
 
   const handleUp = () => {
-    setPageIndex((prev) => Math.max(prev - 1, 0));
+    setStartIndex((prev) => Math.max(prev - STEP, 0));
   };
 
   const handleDown = () => {
-    setPageIndex((prev) => Math.min(prev + 1, totalPages - 1));
+    setStartIndex((prev) =>
+      Math.min(prev + STEP, companies.length - VISIBLE_ITEMS)
+    );
   };
+
+  const visibleCompanies = companies.slice(
+    startIndex,
+    startIndex + VISIBLE_ITEMS
+  );
 
   return (
     <div className="py-12 px-6 md:px-16 bg-black text-center relative">
@@ -49,17 +51,18 @@ const PlacementSection: React.FC = () => {
       </h2>
 
       {/* Cards + Arrows */}
-      <div className="relative max-w-3xl mx-auto bg-gray-900 rounded-xl p-6 flex items-center justify-center">
+      <div className="relative max-w-3xl mx-auto bg-gray-900 rounded-xl p-6 flex items-center justify-center overflow-hidden">
         {/* Visible Window */}
-        <div className="overflow-hidden flex-1 h-[440px]">
-          <div
-            className="grid grid-cols-2 gap-6 transition-transform duration-700 ease-in-out"
-            style={{
-              transform: `translateY(-${pageIndex * (100 / totalPages)}%)`,
-              gridAutoRows: "1fr",
-            }}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={startIndex} // re-animate whenever startIndex changes
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -50 }}
+            transition={{ duration: 0.5 }}
+            className="grid grid-cols-2 gap-6 flex-1"
           >
-            {companies.map((company, index) => (
+            {visibleCompanies.map((company, index) => (
               <div
                 key={index}
                 className="bg-white shadow rounded-xl p-4 flex flex-col items-center justify-center hover:shadow-lg hover:bg-gray-300 transition"
@@ -76,16 +79,16 @@ const PlacementSection: React.FC = () => {
                 <h3 className="text-gray-700 font-medium">{company.name}</h3>
               </div>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </AnimatePresence>
 
         {/* Arrows */}
         <div className="flex flex-col gap-8 ml-8">
           <button
             onClick={handleUp}
-            disabled={pageIndex === 0}
+            disabled={startIndex === 0}
             className={`w-10 h-10 flex items-center justify-center rounded-full shadow text-white transition ${
-              pageIndex === 0
+              startIndex === 0
                 ? "bg-gray-500 cursor-not-allowed"
                 : "bg-purple-600 hover:bg-purple-700"
             }`}
@@ -94,9 +97,9 @@ const PlacementSection: React.FC = () => {
           </button>
           <button
             onClick={handleDown}
-            disabled={pageIndex === totalPages - 1}
+            disabled={startIndex >= companies.length - VISIBLE_ITEMS}
             className={`w-10 h-10 flex items-center justify-center rounded-full shadow text-white transition ${
-              pageIndex === totalPages - 1
+              startIndex >= companies.length - VISIBLE_ITEMS
                 ? "bg-gray-500 cursor-not-allowed"
                 : "bg-purple-600 hover:bg-purple-700"
             }`}

@@ -28,7 +28,7 @@ export default function Testimonials() {
     <section className="bg-black py-10 px-4">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-3xl sm:text-4xl py-5 font-bold text-center text-gray-200 mb-4">
-          What our students say
+          What Our Students Say
         </h2>
 
         <div
