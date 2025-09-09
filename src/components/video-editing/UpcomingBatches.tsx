@@ -98,7 +98,7 @@ export default function UpcomingBatches() {
     <section className="py-10 bg-black">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-10">
-          <h2 className="text-6xl font-extrabold text-[#652f8e]">
+          <h2 className="text-4xl font-extrabold text-blue-500">
             {" "}
             Upcoming Batches
           </h2>

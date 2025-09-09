@@ -103,7 +103,7 @@ export default function Footer() {
 
       {/* Bottom Footer */}
       <div className="text-center text-sm text-gray-500">
-        &copy; {new Date().getFullYear()} Bigdesigned software tecnologies All
+        &copy; {new Date().getFullYear()} Bigdesign software tecnologies All
         rights reserved
       </div>
     </footer>

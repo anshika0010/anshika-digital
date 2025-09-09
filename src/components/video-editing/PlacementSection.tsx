@@ -20,8 +20,6 @@ const companies = [
     logo: logo5,
   },
   { name: "Another Company", logo: logo6 },
-  { name: "Global Tech", logo: logo1 },
-  { name: "NextGen", logo: logo2 },
 ];
 
 const ITEMS_PER_ROW = 2;
