@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 import logo1 from "../../Image/Edu.webp";
 import logo2 from "../../Image/N.webp";
@@ -25,12 +25,15 @@ const STEP = ITEMS_PER_ROW; // Slide by 2 each time
 
 const PlacementSection: React.FC = () => {
   const [startIndex, setStartIndex] = useState(0);
+  const [direction, setDirection] = useState(0); // 1 for down, -1 for up
 
   const handleUp = () => {
+    setDirection(-1);
     setStartIndex((prev) => Math.max(prev - STEP, 0));
   };
 
   const handleDown = () => {
+    setDirection(1);
     setStartIndex((prev) =>
       Math.min(prev + STEP, companies.length - VISIBLE_ITEMS)
     );
@@ -53,34 +56,31 @@ const PlacementSection: React.FC = () => {
       {/* Cards + Arrows */}
       <div className="relative max-w-3xl mx-auto bg-gray-900 rounded-xl p-6 flex items-center justify-center overflow-hidden">
         {/* Visible Window */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={startIndex} // re-animate whenever startIndex changes
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -50 }}
-            transition={{ duration: 0.5 }}
-            className="grid grid-cols-2 gap-6 flex-1"
-          >
-            {visibleCompanies.map((company, index) => (
-              <div
-                key={index}
-                className="bg-white shadow rounded-xl p-4 flex flex-col items-center justify-center hover:shadow-lg hover:bg-gray-300 transition"
-              >
-                <div className="w-24 h-24 rounded-full border-2 border-purple-400 flex items-center justify-center overflow-hidden mb-4 relative">
-                  <Image
-                    src={company.logo}
-                    alt={company.name}
-                    width={96}
-                    height={96}
-                    className="object-contain"
-                  />
-                </div>
-                <h3 className="text-gray-700 font-medium">{company.name}</h3>
+        <motion.div
+          key={startIndex} // re-animate whenever startIndex changes
+          initial={{ y: direction * 50 }}
+          animate={{ y: 0 }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+          className="grid grid-cols-2 gap-6 flex-1"
+        >
+          {visibleCompanies.map((company, index) => (
+            <div
+              key={index}
+              className="bg-white shadow rounded-xl p-4 flex flex-col items-center justify-center hover:shadow-lg hover:bg-gray-300 transition"
+            >
+              <div className="w-24 h-24 rounded-full border-2 border-purple-400 flex items-center justify-center overflow-hidden mb-4 relative">
+                <Image
+                  src={company.logo}
+                  alt={company.name}
+                  width={96}
+                  height={96}
+                  className="object-contain"
+                />
               </div>
-            ))}
-          </motion.div>
-        </AnimatePresence>
+              <h3 className="text-gray-700 font-medium">{company.name}</h3>
+            </div>
+          ))}
+        </motion.div>
 
         {/* Arrows */}
         <div className="flex flex-col gap-8 ml-8">
